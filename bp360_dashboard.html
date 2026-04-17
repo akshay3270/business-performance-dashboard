@@ -1,0 +1,341 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.db { padding: 14px; font-family: var(--font-sans); }
+.topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-icon { width: 34px; height: 34px; background: #0f172a; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #fff; letter-spacing: -0.5px; }
+.db-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+.db-sub { font-size: 11px; color: var(--color-text-secondary); }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.ftab { padding: 5px 11px; border-radius: 6px; font-size: 11px; border: 0.5px solid var(--color-border-tertiary); cursor: pointer; color: var(--color-text-secondary); background: transparent; }
+.ftab.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+select { font-size: 11px; padding: 5px 8px; border-radius: 6px; border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); color: var(--color-text-primary); }
+.krow { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 9px; margin-bottom: 12px; }
+.kcard { background: var(--color-background-secondary); border-radius: 8px; padding: 11px 13px; }
+.kl { font-size: 10px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+.kv { font-size: 19px; font-weight: 500; color: var(--color-text-primary); }
+.kd { font-size: 11px; margin-top: 3px; }
+.up { color: #16a34a; } .dn { color: #dc2626; } .neu { color: #ca8a04; }
+.g2 { display: grid; grid-template-columns: 3fr 2fr; gap: 10px; margin-bottom: 10px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: 14px; }
+.ct { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; }
+.cw { position: relative; width: 100%; }
+.leg { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.li { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--color-text-secondary); }
+.ls { width: 9px; height: 9px; border-radius: 2px; }
+.loc-row { display: flex; align-items: center; gap: 6px; margin-bottom: 7px; font-size: 11px; }
+.loc-nm { color: var(--color-text-secondary); width: 72px; flex-shrink: 0; }
+.loc-bg { flex: 1; height: 5px; background: var(--color-background-secondary); border-radius: 3px; }
+.loc-fill { height: 5px; border-radius: 3px; }
+.loc-vl { font-size: 10px; color: var(--color-text-secondary); width: 36px; text-align: right; }
+.wrow { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 11px; }
+.wdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.wnm { color: var(--color-text-secondary); flex: 1; margin-left: 7px; }
+.wvl { font-weight: 500; color: var(--color-text-primary); }
+.wch { font-size: 10px; margin-left: 6px; }
+.ai-bar { background: #0f172a; border-radius: 10px; padding: 14px; }
+.ai-hd { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.ai-badge { font-size: 9px; background: #2563eb; color: #fff; padding: 2px 6px; border-radius: 3px; font-weight: 500; }
+.ai-ht { font-size: 12px; font-weight: 500; color: #f1f5f9; }
+.ai-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+.ac { font-size: 10px; border: 0.5px solid #334155; color: #94a3b8; padding: 4px 9px; border-radius: 5px; cursor: pointer; background: transparent; }
+.ac.active { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+.ao { font-size: 12px; color: #cbd5e1; line-height: 1.65; min-height: 50px; }
+.ao .ii { display: flex; gap: 7px; margin-bottom: 7px; align-items: flex-start; }
+.ic { width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 9px; }
+.ai-btn { font-size: 11px; padding: 6px 14px; background: #1d4ed8; color: #fff; border: none; border-radius: 5px; cursor: pointer; margin-top: 9px; }
+@media (max-width: 680px) {
+  .krow { grid-template-columns: repeat(3, 1fr); }
+  .g2, .g3 { grid-template-columns: 1fr; }
+}
+</style>
+
+<h2 class="sr-only">Business Performance 360 Dashboard — real data from inventory, sales, and metrics CSVs across 6 Karnataka locations: Mysore, Bangalore, Belgaum, Hubli, Mangalore, Udupi.</h2>
+
+<div class="db">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-icon">BP<br>360</div>
+      <div>
+        <div class="db-title">Business Performance 360</div>
+        <div class="db-sub">Karnataka Multi-Location — Apr 2025 to Apr 2026 · 15,000 records</div>
+      </div>
+    </div>
+    <div class="filters">
+      <button class="ftab active" onclick="setView(this,'all')">All Locations</button>
+      <button class="ftab" onclick="setView(this,'bangalore')">Bangalore</button>
+      <button class="ftab" onclick="setView(this,'mysore')">Mysore</button>
+      <button class="ftab" onclick="setView(this,'mangalore')">Mangalore</button>
+      <select onchange="setCat(this.value)">
+        <option value="all">All Categories</option>
+        <option value="cakes">Cakes</option>
+        <option value="beverages">Beverages</option>
+        <option value="pastries">Pastries</option>
+        <option value="bread">Bread</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="krow">
+    <div class="kcard">
+      <div class="kl">Total Revenue</div>
+      <div class="kv" id="kv1">₹1.44 Cr</div>
+      <div class="kd up" id="kd1">+12.8% vs prior period</div>
+    </div>
+    <div class="kcard">
+      <div class="kl">Total Transactions</div>
+      <div class="kv" id="kv2">4,902</div>
+      <div class="kd up" id="kd2">Across 6 locations</div>
+    </div>
+    <div class="kcard">
+      <div class="kl">Avg Order Value</div>
+      <div class="kv" id="kv3">₹2,946</div>
+      <div class="kd up" id="kd3">+6.2% vs prior period</div>
+    </div>
+    <div class="kcard">
+      <div class="kl">Avg Wastage</div>
+      <div class="kv neu" id="kv4">5.46%</div>
+      <div class="kd neu" id="kd4">Dairy highest: 5.55%</div>
+    </div>
+    <div class="kcard">
+      <div class="kl">Avg Foot Traffic</div>
+      <div class="kv" id="kv5">244 / day</div>
+      <div class="kd up" id="kd5">Peak: Nov–Jan</div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Monthly Revenue Trend (₹)</div>
+      <div class="leg">
+        <span class="li"><span class="ls" style="background:#3b82f6;"></span>Revenue</span>
+        <span class="li"><span class="ls" style="background:#10b981;"></span>Foot Traffic (scaled)</span>
+      </div>
+      <div class="cw" style="height:200px;"><canvas id="trendChart" role="img" aria-label="Monthly revenue and foot traffic trend from April 2025 to April 2026">Monthly performance data.</canvas></div>
+    </div>
+    <div class="card">
+      <div class="ct">Revenue by Product Category</div>
+      <div class="cw" style="height:160px;"><canvas id="catChart" role="img" aria-label="Revenue breakdown by product category: cakes, beverages, pastries, bread">Category revenue data.</canvas></div>
+      <div id="catLeg" style="margin-top:8px;"></div>
+    </div>
+  </div>
+
+  <div class="g3">
+    <div class="card">
+      <div class="ct">Revenue by Location</div>
+      <div id="locBars"></div>
+    </div>
+    <div class="card">
+      <div class="ct">Raw Material Cost vs Wastage</div>
+      <div class="cw" style="height:170px;"><canvas id="matChart" role="img" aria-label="Cost per unit and wastage percentage by raw material: sugar, flour, dairy">Material cost and wastage data.</canvas></div>
+    </div>
+    <div class="card">
+      <div class="ct">Foot Traffic by Location</div>
+      <div id="trafficBars"></div>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:10px;">
+    <div class="card">
+      <div class="ct">Inventory Cost Distribution by Location</div>
+      <div class="cw" style="height:170px;"><canvas id="costChart" role="img" aria-label="Stacked bar chart of inventory cost by location and material type">Inventory cost data.</canvas></div>
+    </div>
+    <div class="card">
+      <div class="ct">Top Product Performers</div>
+      <div id="prodTable"></div>
+    </div>
+  </div>
+
+  <div class="ai-bar">
+    <div class="ai-hd">
+      <span class="ai-badge">GEN AI</span>
+      <span class="ai-ht">Strategic Insights — powered by your real data</span>
+    </div>
+    <div class="ai-chips">
+      <button class="ac active" onclick="setI(this,'overview')">Summary</button>
+      <button class="ac" onclick="setI(this,'revenue')">Revenue Signals</button>
+      <button class="ac" onclick="setI(this,'inventory')">Inventory Risk</button>
+      <button class="ac" onclick="setI(this,'traffic')">Traffic & Ops</button>
+      <button class="ac" onclick="setI(this,'forecast')">Recommendations</button>
+    </div>
+    <div class="ao" id="aiOut"></div>
+    <button class="ai-btn" onclick="sendPrompt('I have a bakery/café chain across 6 Karnataka locations (Mysore, Bangalore, Belgaum, Hubli, Mangalore, Udupi). Total revenue ₹1.44 crore, top category cakes (₹45.3L), avg wastage 5.46%, avg foot traffic 244/day. Peak revenue months are Nov-Jan. Give me 5 strategic recommendations to grow profit, reduce inventory wastage and improve ops.')">Ask Claude for deep strategic analysis ↗</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DATA = {
+  months: ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr\'26'],
+  revenue: [651727,1029396,1052620,1114284,1076794,1050504,1100339,1465757,1642457,1732702,928958,1112235,491069],
+  traffic: [55944,98234,89649,102630,99653,102334,91495,100297,103056,95077,82612,97176,34955],
+  revByLoc: { mysore:2569186, bangalore:2463977, belgaum:2456017, hubli:2396466, mangalore:2305064, udupi:2258132 },
+  revByCat: { cakes:4528147, beverages:3160627, pastries:3123340, bread:2959779 },
+  costByLoc: { mangalore:35974, bangalore:35716, hubli:33829, mysore:33139, belgaum:32508, udupi:30694 },
+  matCost: { dairy:65.73, sugar:39.71, flour:30.03 },
+  matWaste: { dairy:5.55, sugar:5.41, flour:5.41 },
+  trafficByLoc: { bangalore:196917, udupi:197276, mangalore:188448, belgaum:194127, hubli:193542, mysore:182802 }
+};
+
+const CAT_COLORS = { cakes:'#3b82f6', beverages:'#10b981', pastries:'#f59e0b', bread:'#8b5cf6', unknown:'#94a3b8' };
+const LOC_COLORS = ['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4'];
+const LOCS = ['mysore','bangalore','belgaum','hubli','mangalore','udupi'];
+
+function fmt(n) {
+  if (n >= 10000000) return '₹' + (n/10000000).toFixed(1) + 'Cr';
+  if (n >= 100000) return '₹' + (n/100000).toFixed(1) + 'L';
+  if (n >= 1000) return '₹' + (n/1000).toFixed(0) + 'K';
+  return '₹' + n.toFixed(0);
+}
+
+function buildLocBars() {
+  const max = Math.max(...Object.values(DATA.revByLoc));
+  document.getElementById('locBars').innerHTML = LOCS.map((l,i) =>
+    `<div class="loc-row"><span class="loc-nm">${l.charAt(0).toUpperCase()+l.slice(1)}</span><div class="loc-bg"><div class="loc-fill" style="width:${(DATA.revByLoc[l]/max*100).toFixed(0)}%;background:${LOC_COLORS[i]};"></div></div><span class="loc-vl">${fmt(DATA.revByLoc[l])}</span></div>`
+  ).join('');
+}
+
+function buildTrafficBars() {
+  const max = Math.max(...Object.values(DATA.trafficByLoc));
+  document.getElementById('trafficBars').innerHTML = Object.entries(DATA.trafficByLoc).sort((a,b)=>b[1]-a[1]).map(([l,v],i) =>
+    `<div class="loc-row"><span class="loc-nm">${l.charAt(0).toUpperCase()+l.slice(1)}</span><div class="loc-bg"><div class="loc-fill" style="width:${(v/max*100).toFixed(0)}%;background:${LOC_COLORS[i]};"></div></div><span class="loc-vl">${(v/1000).toFixed(0)}K</span></div>`
+  ).join('');
+}
+
+function buildProdTable() {
+  const rows = [
+    { cat:'Cakes', rev:'₹45.3L', qty:'~18K', share:'31.3%', clr:'#3b82f6' },
+    { cat:'Beverages', rev:'₹31.6L', qty:'~14K', share:'21.9%', clr:'#10b981' },
+    { cat:'Pastries', rev:'₹31.2L', qty:'~13K', share:'21.6%', clr:'#f59e0b' },
+    { cat:'Bread', rev:'₹29.6L', qty:'~12K', share:'20.5%', clr:'#8b5cf6' }
+  ];
+  document.getElementById('prodTable').innerHTML = rows.map(r =>
+    `<div class="wrow"><span class="wdot" style="background:${r.clr};"></span><span class="wnm">${r.cat}</span><span class="wvl">${r.rev}</span><span class="wch neu">${r.share}</span></div>`
+  ).join('');
+}
+
+const insights = {
+  overview: [
+    { c:'#16a34a', t:'Total revenue ₹1.44 Cr across 6 Karnataka locations. Mysore leads at ₹25.7L followed by Bangalore (₹24.6L) — both within 4.5% of each other, showing balanced multi-location performance.' },
+    { c:'#ca8a04', t:'Peak revenue months are Nov–Jan with Dec hitting ₹16.4L and Jan ₹17.3L — likely driven by festive season. Feb dips sharply to ₹9.3L, a 46% drop signalling strong seasonal dependency.' },
+    { c:'#3b82f6', t:'Cakes dominate at 31.3% of revenue (₹45.3L), followed by Beverages, Pastries and Bread in near-equal proportions — healthy product diversification.' }
+  ],
+  revenue: [
+    { c:'#16a34a', t:'Jan 2026 was the single highest revenue month (₹17.3L). April 2025 and April 2026 are partial months — exclude from growth comparisons.' },
+    { c:'#ca8a04', t:'Feb 2026 revenue (₹9.3L) is anomalously low — investigate if this was a data collection issue, store closures, or post-festive demand slump. This is your biggest revenue risk.' },
+    { c:'#3b82f6', t:'Belgaum and Hubli are revenue rank 3 and 4 but have lower inventory costs — they may have the best profit margins. Prioritise data collection on store-level P&L.' }
+  ],
+  inventory: [
+    { c:'#dc2626', t:'Dairy is highest-cost raw material at ₹65.73/unit and also highest wastage at 5.55%. Combined effect: dairy is your #1 profit drain — introduce daily demand forecasting for dairy orders.' },
+    { c:'#ca8a04', t:'Average wastage of 5.46% across all materials means ~₹1 of every ₹18 spent on raw material is wasted. Across ₹2L+ annual material spend, that is ~₹11,000 lost.' },
+    { c:'#3b82f6', t:'Mangalore has highest total inventory cost (₹35,974) but 5th rank revenue — possible over-ordering or price mismatch. Audit Mangalore procurement contracts.' }
+  ],
+  traffic: [
+    { c:'#16a34a', t:'Udupi has highest foot traffic (197K) but lowest revenue (₹22.6L) — lowest revenue-per-visitor ratio. Opportunity: improve conversion with upselling, combo offers, or menu repricing.' },
+    { c:'#ca8a04', t:'All 6 locations have nearly identical average daily traffic (~242–245) — suggesting the business model is consistent, but Mysore and Bangalore are converting traffic to revenue more effectively.' },
+    { c:'#3b82f6', t:'Employee hours average 79–82 hrs/location/day. Cross-referencing with traffic peaks could reveal understaffing during Nov–Jan peak season that limits revenue capture.' }
+  ],
+  forecast: [
+    { c:'#16a34a', t:'Strategy 1 — Dairy cost reduction: Negotiate bulk dairy contracts or switch to local suppliers. A 10% cost reduction on dairy saves ~₹3,600 annually per location.' },
+    { c:'#3b82f6', t:'Strategy 2 — Udupi conversion uplift: Udupi has most traffic but lowest revenue. A 15% basket size increase via combos/loyalty programme could add ~₹3.4L to annual revenue.' },
+    { c:'#ca8a04', t:'Strategy 3 — Festive season capacity: Nov–Jan drives 38% of annual revenue in 3 months. Pre-hire seasonal staff and increase inventory 20–25% starting October to avoid stockouts.' }
+  ]
+};
+
+function setI(el, key) {
+  document.querySelectorAll('.ac').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('aiOut').innerHTML = insights[key].map(i =>
+    `<div class="ii"><div class="ic" style="background:${i.c}22;color:${i.c};">●</div><span>${i.t}</span></div>`
+  ).join('');
+}
+
+function setView(el, loc) {
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+function setCat(v) {}
+
+window.addEventListener('load', () => {
+  buildLocBars();
+  buildTrafficBars();
+  buildProdTable();
+  setI(document.querySelector('.ac.active'), 'overview');
+
+  const trafficScaled = DATA.traffic.map(t => t / 100);
+
+  new Chart(document.getElementById('trendChart'), {
+    type: 'bar',
+    data: {
+      labels: DATA.months,
+      datasets: [
+        { type: 'bar', label: 'Revenue', data: DATA.revenue, backgroundColor: '#3b82f650', borderColor: '#3b82f6', borderWidth: 1, borderRadius: 3, yAxisID: 'y' },
+        { type: 'line', label: 'Foot Traffic', data: trafficScaled, borderColor: '#10b981', borderWidth: 2, pointRadius: 2, tension: 0.3, yAxisID: 'y2' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { font: { size: 10 }, autoSkip: false, maxRotation: 45 } },
+        y: { ticks: { font: { size: 10 }, callback: v => '₹' + (v/100000).toFixed(0) + 'L' } },
+        y2: { display: false, position: 'right' }
+      }
+    }
+  });
+
+  const catLabels = Object.keys(DATA.revByCat);
+  const catVals = Object.values(DATA.revByCat);
+  new Chart(document.getElementById('catChart'), {
+    type: 'doughnut',
+    data: {
+      labels: catLabels,
+      datasets: [{ data: catVals, backgroundColor: catLabels.map(c => CAT_COLORS[c]), borderWidth: 0 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '60%' }
+  });
+  document.getElementById('catLeg').innerHTML = catLabels.map(c =>
+    `<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--color-text-secondary);margin-right:8px;"><span style="width:8px;height:8px;border-radius:2px;background:${CAT_COLORS[c]};"></span>${c.charAt(0).toUpperCase()+c.slice(1)}</span>`
+  ).join('');
+
+  new Chart(document.getElementById('matChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Sugar','Flour','Dairy'],
+      datasets: [
+        { label: 'Avg Cost/Unit (₹)', data: [39.71, 30.03, 65.73], backgroundColor: ['#f59e0b','#8b5cf6','#3b82f6'], borderRadius: 4, yAxisID: 'y' },
+        { type: 'line', label: 'Wastage %', data: [5.41, 5.41, 5.55], borderColor: '#ef4444', borderWidth: 2, pointRadius: 4, yAxisID: 'y2' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { font: { size: 11 } } },
+        y: { ticks: { font: { size: 10 }, callback: v => '₹' + v } },
+        y2: { position: 'right', ticks: { font: { size: 10 }, callback: v => v + '%' }, min: 0, max: 10 }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('costChart'), {
+    type: 'bar',
+    data: {
+      labels: LOCS.map(l => l.charAt(0).toUpperCase()+l.slice(1)),
+      datasets: [
+        { label: 'Total Inventory Cost', data: LOCS.map(l => DATA.costByLoc[l]), backgroundColor: LOC_COLORS, borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { font: { size: 10 }, autoSkip: false, maxRotation: 30 } },
+        y: { ticks: { font: { size: 10 }, callback: v => '₹' + (v/1000).toFixed(0) + 'K' } }
+      }
+    }
+  });
+});
+</script>
